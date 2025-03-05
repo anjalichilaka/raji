@@ -1,0 +1,19 @@
+.app-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+}
+
+.top-centered-content {
+  text-align: center;
+  width: 100%;
+  margin-top: 20px; /* Adjust this value to control the top spacing */
+}

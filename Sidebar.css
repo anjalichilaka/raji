@@ -1,0 +1,124 @@
+/* Sidebar Container */
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  background-color: #053560; /* Blue background */
+  color: white;
+  padding: 18px;
+  font-family: Arial, sans-serif;
+  position: fixed;
+  top: 0; 
+  left: 0; /* Fixed to the left */
+  overflow-y: auto; /* Add scroll inside the sidebar if content exceeds */
+  scrollbar-width: thin; /* Make the scrollbar less intrusive */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Profile Section */
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.profile h3 {
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.profile p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Navigation Menu */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul > li {
+  margin-bottom: 10px;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-item:hover {
+  background-color: #021c31;
+}
+
+.submenu {
+  margin-left: 20px;
+  margin-top: 5px;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.submenu-item {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.submenu-item:hover,
+.nested-submenu li:hover {
+  text-decoration: underline;
+}
+
+.nested-submenu {
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.active {
+  background-color: #042c53;
+  font-weight: bold;
+  color: white;
+}
+.profile {
+  text-align: center;
+  padding: 20px;
+  background-color: #0d3b66;
+  color: white;
+}
+
+.profile-pic-container {
+  cursor: pointer;
+  display: block;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.delete-btn:hover {
+  color: red;
+}
