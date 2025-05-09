@@ -1,9 +1,13 @@
+
 import React, { useState } from "react";
 import "./Sidebar.css";
 
 function Sidebar({ activeSection, setActiveSection }) {
   const [openSubmenus, setOpenSubmenus] = useState({});
   const [profileImage, setProfileImage] = useState(null);
+
+  const faculty_name = "Faculty";
+  const faculty_mail = "Faculty@vvit.net";
 
   const menuItems = [
     {
@@ -70,10 +74,12 @@ function Sidebar({ activeSection, setActiveSection }) {
             src={profileImage || "https://via.placeholder.com/50"}
             alt="Profile"
             className="profile-pic"
+            onClick={() => document.querySelector("input[type=file]").click()}
           />
         </label>
-        <h3>Name of the Faculty</h3>
-        <p>Mail of the Faculty</p>
+        <h3>{faculty_name}</h3>
+
+        <p>{faculty_mail}</p>
         {profileImage && (
           <button onClick={handleDeleteImage} className="delete-btn">
             🗑️ Delete Photo
@@ -131,3 +137,5 @@ function Sidebar({ activeSection, setActiveSection }) {
 }
 
 export default Sidebar;
+
+

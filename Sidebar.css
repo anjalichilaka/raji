@@ -12,6 +12,8 @@
   overflow-y: auto; /* Add scroll inside the sidebar if content exceeds */
   scrollbar-width: thin; /* Make the scrollbar less intrusive */
   z-index: 1000; /* Ensure it's above other content */
+  overflow-y: auto;
+  cursor: pointer;
 }
 
 /* Profile Section */
@@ -20,6 +22,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
+  overflow-y: auto;
 }
 
 .profile-pic {
@@ -67,6 +70,7 @@ nav ul > li {
   margin-left: 20px;
   margin-top: 5px;
   padding-left: 10px;
+  cursor: pointer;
   border-left: 1px solid rgba(255, 255, 255, 0.5);
 }
 
@@ -122,3 +126,29 @@ nav ul > li {
 .delete-btn:hover {
   color: red;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

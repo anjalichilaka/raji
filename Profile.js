@@ -33,12 +33,13 @@ function Profile() {
             onClick={() => document.querySelector("input[type=file]").click()}
           />
         </label>
-        <h3>Name of the Faculty</h3>
-        <p>Mail of the Faculty</p>
-
+        <div className="profile-info">
+          <h3 className="profile-name">Sruthi Sree</h3>
+          <p className="profile-email">22bq1a0542@vvit.net</p>
+        </div>
         {profileImage && (
           <button onClick={handleDeleteImage} className="delete-btn">
-            🗑️ 
+            🗑️
           </button>
         )}
       </div>

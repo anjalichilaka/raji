@@ -1,6 +1,6 @@
+
 import React, { useState, useEffect } from "react";
 import "./EscalatedComplaints.css";
-
 function EscalatedComplaints() {
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -8,9 +8,9 @@ function EscalatedComplaints() {
   const [showForm, setShowForm] = useState(false);
   const [showDetails, setShowDetails] = useState(null);
   const [formData, setFormData] = useState({
-    assignedTo: "",
+    assignedTo: "Dr. V. RamChandran", // Pre-filled HOD name
     reason: "",
-    hodMail: "",
+    hodMail: "vrc.bhat@vvit.net", // Pre-filled HOD email
   });
   const [selectedComplaint, setSelectedComplaint] = useState(null);
   const [statusFormData, setStatusFormData] = useState({
@@ -20,6 +20,8 @@ function EscalatedComplaints() {
     complaintDescription: "",
     action: "",
   });
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     const fetchComplaints = async () => {
@@ -39,6 +41,38 @@ function EscalatedComplaints() {
     };
     fetchComplaints();
   }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/escalation");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const allNotifications = data.flatMap((complaint) => complaint.notifications || []);
+        setNotifications(allNotifications);
+      } catch (error) {
+        console.error("Error fetching notifications:", error.message);
+      }
+    };
+    fetchNotifications();
+  }, []);
+
+  // Add a notification
+  const addNotification = (message) => {
+    const newNotification = {
+      id: Date.now(),
+      message,
+    };
+    setNotifications((prev) => [newNotification, ...prev]);
+    
+  };
+
+  // Remove a notification
+  const removeNotification = (id) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
 
   const handleOpenClick = (complaintId) => {
     setShowDetails((prev) => (prev === complaintId ? null : complaintId));
@@ -69,6 +103,7 @@ function EscalatedComplaints() {
         throw new Error("Failed to delete complaint.");
       }
       setComplaints((prev) => prev.filter((complaint) => complaint._id !== complaintId));
+      addNotification("Complaint deleted successfully!");
       alert("Complaint deleted successfully!");
     } catch (error) {
       console.error("Error deleting complaint:", error.message);
@@ -113,6 +148,7 @@ function EscalatedComplaints() {
         prev.map((complaint) => (complaint._id === data._id ? data : complaint))
       );
       setShowDetails(null);
+      addNotification(`Complaint status updated to: ${statusFormData.action}`);
       alert("Complaint status updated successfully!");
     } catch (error) {
       console.error("Error updating complaint status:", error.message);
@@ -120,11 +156,11 @@ function EscalatedComplaints() {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedComplaint) return;
 
+    const escalationDate = new Date().toLocaleDateString(); // Get the current date
     const escalationData = {
       complaint_id: selectedComplaint.complaint_id,
       escalation_level: selectedComplaint.escalation_level + 1,
@@ -138,6 +174,7 @@ function EscalatedComplaints() {
           sent_to: formData.assignedTo,
           sent_at: new Date().toISOString(),
           status: "Pending",
+          note: `The complaint is escalated to the HOD on ${escalationDate}`,
         },
       ],
     };
@@ -156,7 +193,8 @@ function EscalatedComplaints() {
       const data = await response.json();
       setComplaints((prev) => [...prev, data]);
       setShowForm(false);
-      setFormData({ assignedTo: "", reason: "", hodMail: "" });
+      setFormData({ assignedTo: "Dr. V. RamChandran", reason: "", hodMail: "vrc.bhatt@vvit.net" });
+      addNotification(`The complaint is escalated to the HOD on ${escalationDate}`); // Add notification with escalation date
     } catch (error) {
       console.error("Error escalating complaint:", error.message);
       alert("Failed to escalate complaint. Please try again.");
@@ -168,7 +206,40 @@ function EscalatedComplaints() {
 
   return (
     <div className="escalated-complaints">
-      <h2>Escalated Complaints</h2>
+      {/* Notification Bell Icon */}
+      <div className="notification-bell" onClick={() => setShowNotifications(!showNotifications)}>
+        🔔
+        {notifications.length > 0 && <span className="notification-count">{notifications.length}</span>}
+      </div>
+
+      {/* Notification Dropdown */}
+      {showNotifications && (
+        <div className="notification-dropdown">
+          {notifications.length > 0 ? (
+          notifications.map((notification, index) => (
+          <div key={index} className="notification-item">
+          {notification.message}
+          {index === 0 && ( // Only show cancel button for the first notification
+          <button
+          className="cancel-notification"
+          onClick={() => removeNotification(notification.id)}
+        >
+          ❌
+        </button>
+      )}
+    </div>
+  ))
+) : (
+  <div className="notification-item">
+    No new notifications
+  </div>
+)}
+<h1 className="all-complaints-heading">All Complaints</h1>
+
+        </div>
+      )}
+
+      <h1 className="all-complaints-heading">All Complaints</h1>
       {complaints.map((complaint) => (
         <div key={complaint._id} className="complaint">
           <div>
@@ -219,35 +290,12 @@ function EscalatedComplaints() {
                     required
                   />
                   <label>Action:</label>
-                  <div className="radio-buttons">
-                    <label>
-                      <input
-                        type="radio"
-                        name="action"
-                        value="Solved"
-                        onChange={handleStatusInputChange}
-                      />
-                      Solved
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="action"
-                        value="Pending"
-                        onChange={handleStatusInputChange}
-                      />
-                      Pending
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="action"
-                        value="Not Processed"
-                        onChange={handleStatusInputChange}
-                      />
-                      Not Processed
-                    </label>
-                  </div>
+                  <select name="action" onChange={handleStatusInputChange}>
+                  <option value="">Select Action</option>
+                  <option value="Solved">Solved</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Not Processed">Not Processed</option>
+                  </select>
                   <div className="form-buttons">
                     <button type="submit" className="submit-button">
                       Submit
@@ -327,3 +375,11 @@ function EscalatedComplaints() {
 }
 
 export default EscalatedComplaints;
+
+
+
+
+
+
+
+

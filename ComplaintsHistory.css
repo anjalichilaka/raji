@@ -1,0 +1,66 @@
+.complaints-history {
+    width: 90%;
+    margin: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background: #fff;
+  }
+  
+  h2 {
+    color: #333;
+    text-align: left;
+    border-bottom: 2px solid blue;
+    padding-bottom: 10px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  th {
+    background: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .status-label {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .status-in-process {
+    background: orange;
+  }
+  
+  .status-closed {
+    background: green;
+  }
+  
+  .status-not-processed {
+    background: red;
+  }
+  
+  .view-details-btn {
+    background: blue;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .view-details-btn:hover {
+    background: darkblue;
+  }
+  

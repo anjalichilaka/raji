@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import EscalatedComplaints from "./EscalatedComplaints";
@@ -15,10 +16,9 @@ function App() {
             <h1>Welcome to Dashboard</h1>
           </div>
         )}
-        {activeSection === "Escalated Complaints" && <EscalatedComplaints />}
+        {(activeSection === "All Complaints") && (<EscalatedComplaints/>)}
       </main>
     </div>
   );
 }
-
 export default App;
